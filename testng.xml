@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--<suite name="All Tests" parallel="classes" thread-count="1" data-provider-thread-count="1" verbose="10">-->
+<!-- <parameter name="browserUrl" value="https://store.daltonderm.com"/>-->
+<!-- <parameter name="fileNameSuffix" value="Dalton_Dermatology"/>-->
+
+<suite name="All Tests">
+    <listeners>
+        <listener class-name="listener.AllureListener"></listener>
+    </listeners>
+ <test name="TD tests">
+  <classes>
+   <class name="test.AmazonSearchTest"/>
+  </classes>
+ </test>
+</suite>

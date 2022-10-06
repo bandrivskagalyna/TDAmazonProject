@@ -1,0 +1,10 @@
+/target/
+/.idea/
+/bin/
+/.allure/
+
+# Idea maven files
+*.iml
+
+# Compiled class file
+*.class
