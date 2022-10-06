@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Test Suite Parallel" thread-count="2" parallel="tests">
+
+<test name="TD Tests Device 1">
+    <parameter name="Device" value="GalaxyS9"/>
+    <classes>
+        <class name="test.AmazonSearchTest"/>
+    </classes>
+</test>
+
+<test name="TD Tests Device 2">
+    <parameter name="Device" value="Pixel"/>
+    <classes>
+        <class name="test.AmazonSearchTest"/>
+    </classes>
+</test>
+
+</suite>

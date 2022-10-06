@@ -22,9 +22,9 @@ public class BaseMethod {
         wait = new WebDriverWait(driver, Duration.ofSeconds(WEB_DRIVER_WAIT));
     }
 
-    protected static WebDriver getDriver() {
-        return driver;
-    }
+//    protected static WebDriver getDriver() {
+//        return driver;
+//    }
 
     protected void waitUntilLoaded(long millis) {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(millis));
@@ -52,7 +52,7 @@ public class BaseMethod {
     }
 
     protected String extractPrice(String price) {
-            return price.substring(price.indexOf("$"));
+        return price.substring(price.indexOf("$"));
     }
 
 }

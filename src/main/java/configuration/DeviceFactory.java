@@ -1,5 +1,6 @@
 package configuration;
 
+import configuration.data.DeviceProperty;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
@@ -7,40 +8,43 @@ import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Reporter;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class DeviceFactory {
 
     @Step("Create driver for device")
-    public static WebDriver createDriver() throws Exception {
+    public WebDriver createDriver(String device) throws Exception {
         WebDriver driver;
 
-        String platform = PropertyLoader.platformName;
+        DeviceProperty deviceProperty = new PropertyLoader().loadProperties(device);
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        switch (platform) {
-
+        switch (deviceProperty.getPlatformName()) {
             case "Android":
                 File classpathRoot = new File(System.getProperty("user.dir"));
                 File appDir = new File(classpathRoot, "/Apps/Amazon/");
                 File app = new File(appDir, "AmazonShopping.apk");
 
                 capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-                capabilities.setCapability("deviceName", PropertyLoader.deviceName);
-                capabilities.setCapability("platformName", platform);
+                capabilities.setCapability("deviceName", deviceProperty.getDeviceName());
+                capabilities.setCapability("platformName", deviceProperty.getPlatformName());
                 capabilities.setCapability("app", app.getAbsolutePath());
-                capabilities.setCapability("appPackage", PropertyLoader.appPackage);
-                capabilities.setCapability("appActivity", PropertyLoader.appActivity);
-                capabilities.setCapability("unicodeKeyboard", PropertyLoader.unicodeKeyboard);
-
-                capabilities.setCapability("resetKeyboard", PropertyLoader.resetKeyboard);
+                capabilities.setCapability("appPackage", deviceProperty.getAppPackage());
+                capabilities.setCapability("appActivity", deviceProperty.getAppActivity());
+                capabilities.setCapability("unicodeKeyboard", deviceProperty.getUnicodeKeyboard());
+                capabilities.setCapability("resetKeyboard", deviceProperty.getResetKeyboard());
 
                 driver = new AndroidDriver(new URL(buildAppiumUrl()), capabilities);
-                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
                 break;
 
             case "iOS":
@@ -57,7 +61,7 @@ public class DeviceFactory {
         return driver;
     }
 
-    private static String buildAppiumUrl() {
+    private String buildAppiumUrl() {
         StringBuilder sb = new
                 StringBuilder("http://");
         sb.append(PropertyLoader.appiumRemoteHost)
@@ -66,4 +70,5 @@ public class DeviceFactory {
                 .append(PropertyLoader.appiumRemotePath);
         return sb.toString();
     }
+
 }
